@@ -17,4 +17,8 @@ router.get("/closest-station", async (req, res) => {
   res.json(await trainAPI.closestStation(req.query.lat, req.query.lng));
 });
 
+router.get("/train-service", async (req, res) => {
+  res.json(await trainAPI.trainService(req.query.trainId));
+});
+
 module.exports = router;

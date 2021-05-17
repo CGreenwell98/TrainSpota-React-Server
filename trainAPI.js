@@ -59,3 +59,20 @@ exports.closestStation = async function (lat, lng) {
     console.error(err);
   }
 };
+
+exports.trainService = async function (trainId) {
+  try {
+    const response = await fetch(
+      `https://transportapi.com/v3/uk/train/service/train_uid:${trainId}///timetable.json?app_id=${process.env.TRANSPORT_API_ID}&app_key=${process.env.TRANSPORT_API_KEY}&darwin=false&live=false`
+    );
+    const json = await response.json();
+    return json.member.map((data) => ({
+      name: data.station_name,
+      code: data.station_code,
+      platform: data.platform || "?",
+      departure_time: data.aimed_departure_time,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+};
